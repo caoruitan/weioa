@@ -43,8 +43,7 @@
 			</div>
 			
 			<div class="m-footer">
-				<span class="m-btn w-60"><a href="javascript:submit()" class="bg-blue">提交</a></span>
-				<span class="m-btn w-40"><a href="javascript:history.go(-1)" class="bg-gray">返回</a></span>
+				<span class="m-btn w-100"><a href="javascript:submit()" class="bg-blue">提交</a></span>
 			</div>
 			
 		</div>

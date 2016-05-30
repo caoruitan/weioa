@@ -30,7 +30,7 @@
 			<div class="m-tabs-page m-tabs-page-actived">
 				<c:forEach items="${problems}" var="problem">
 					<c:if test='${problem.status eq "PROCESSING"}'>
-						<a href="${basePath}/problem/problemDetail.htm?problemId=${problem.problemId}">
+						<a href="${basePath}/problem/problemDetail.htm?problemId=${problem.problemId}&re=true">
 							<div class="m-box">
 								<li>
 									<p><img src="${basePath}/res/images/ydbh.png" />提交时间</p>
@@ -43,6 +43,10 @@
 								<li>
 									<p>提交人</p>
 									<p>${problem.creatorName}</p>
+								</li>
+								<li>
+									<p class="red">${statusNames[problem.status]}</p>
+									<p><span class="m-right"></span></p>
 								</li>
 							</div>
 						</a>
@@ -50,9 +54,9 @@
 				</c:forEach>
 			</div>
 			<div class="m-tabs-page">
-				<c:forEach items="${workOrderList}" var="workOrder">
+				<c:forEach items="${problems}" var="problem">
 					<c:if test='${problem.status eq "PROCESSED"}'>
-						<a href="${basePath}/problem/problemDetail.htm?problemId=${problem.problemId}">
+						<a href="${basePath}/problem/problemDetail.htm?problemId=${problem.problemId}&re=true">
 							<div class="m-box">
 								<li>
 									<p><img src="${basePath}/res/images/ydbh.png" />提交时间</p>
@@ -66,13 +70,15 @@
 									<p>提交人</p>
 									<p>${problem.creatorName}</p>
 								</li>
+								<li>
+									<p class="red">${statusNames[problem.status]}</p>
+									<p><span class="m-right"></span></p>
+								</li>
 							</div>
 						</a>
 					</c:if>
 				</c:forEach>
 			</div>
-		</div>
-
 		</div>
 
 		<script type="text/javascript">

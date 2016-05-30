@@ -77,6 +77,9 @@ CREATE TABLE problem (
   creator_phone VARCHAR(100) COMMENT '反馈人电话',
   creator_photo VARCHAR(200) COMMENT '反馈人头像URL',
   create_time DATETIME COMMENT '反馈时间',
+  re VARCHAR(4000) COMMENT '回复内容',
+  re_user VARCHAR(200) COMMENT '回复人',
+  re_user_name VARCHAR(200) COMMENT '回复人姓名',
   status VARCHAR(100) COMMENT '状态',
   PRIMARY KEY (`problem_id`)
 ) CHARSET=utf8;

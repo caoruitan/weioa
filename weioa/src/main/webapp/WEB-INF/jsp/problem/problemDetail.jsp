@@ -21,7 +21,8 @@
 	</head>
 
 	<body>
-	<form id="problemForm" name="problemForm" action="${basePath}/problem/submitProblem.htm" method="post">
+	<form id="problemForm" name="problemForm" action="${basePath}/problem/processProblem.htm" method="post">
+		<input type="hidden" name="problemId" value="${problem.problemId }">
 		<!-- B 内容信息 -->
 		<div class="m-layout">
 			<!--<div class="m-header"><a href="#"><span class="m-return"></span></a>抄送<span class="m-option"></span></div>-->
@@ -54,20 +55,51 @@
 					<p><fmt:formatDate value="${problem.createTime}" type="both" dateStyle="medium" timeStyle="medium"/></p>
 				</li>
 			</div>
-			<div class="m-box">
-				<li>
-					<p><img src="${basePath}/res/images/wt.png" />回复</p>
-					<p></p>
-				</li>
-				<li class="m-auto-height">
-					<textarea class="m-textarea" name="re" rows="5" cols=""></textarea>
-				</li>
-			</div>
 			
-			<div class="m-footer">
-				<span class="m-btn w-60"><a href="javascript:submit()" class="bg-blue">提交</a></span>
-				<span class="m-btn w-40"><a href="javascript:history.go(-1)" class="bg-gray">返回</a></span>
-			</div>
+			<c:if test='${problem.status eq "PROCESSING"}'>
+				<c:if test='${re eq "true"}'>
+					<div class="m-box">
+						<li>
+							<p><img src="${basePath}/res/images/wt.png" />回复</p>
+							<p></p>
+						</li>
+						<li class="m-auto-height">
+							<textarea class="m-textarea" name="re" rows="5" cols=""></textarea>
+						</li>
+					</div>
+					
+					<div class="m-footer">
+						<span class="m-btn w-60"><a href="javascript:submit()" class="bg-blue">提交</a></span>
+						<span class="m-btn w-40"><a href="javascript:history.go(-1)" class="bg-gray">返回</a></span>
+					</div>
+				</c:if>
+				
+				<c:if test='${re eq "false"}'>
+					<div class="m-footer">
+						<span class="m-btn w-100"><a href="javascript:history.go(-1)" class="bg-gray">返回</a></span>
+					</div>
+				</c:if>
+			</c:if>
+			
+			<c:if test='${problem.status eq "PROCESSED"}'>
+				<div class="m-box">
+					<li>
+						<p><img src="${basePath}/res/images/wt.png" />回复内容</p>
+						<p></p>
+					</li>
+					<li class="m-auto-height">
+						<pre>${problem.re}</pre>
+					</li>
+					<li>
+						<p><img src="${basePath}/res/images/txl.png" />回复人</p>
+						<p>${problem.reUserName}</p>
+					</li>
+				</div>
+				
+				<div class="m-footer">
+					<span class="m-btn w-100"><a href="javascript:history.go(-1)" class="bg-gray">返回</a></span>
+				</div>
+			</c:if>
 			
 		</div>
 	</form>
@@ -83,22 +115,14 @@
 			$('#problemForm').validate({
 				errorClass: "validate-error",
 				rules: {
-					title : {
-						required: true,
-						maxlength : 30
-					},
-					content : {
+					re : {
 						required: true,
 						maxlength : 500
 					}
 				},
 				messages: {
-					title : {
-						required: "请填写问题摘要",
-						maxlength : "不能超过30个字符"
-					},
-					content : {
-						required: "请填写问题描述",
+					re : {
+						required: "请填写回复内容",
 						maxlength : "不能超过500个字符"
 					}
 				}

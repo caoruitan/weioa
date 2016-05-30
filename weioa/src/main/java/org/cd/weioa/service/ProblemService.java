@@ -33,8 +33,11 @@ public class ProblemService {
         return problem;
     }
 
-    public void processProblem(String problemId) {
+    public void processProblem(String problemId, String re, UserInfo userInfo) {
         Problem problem = this.problemDao.getEntityById(Problem.class, problemId);
+        problem.setRe(re);
+        problem.setReUser(userInfo.getUserId());
+        problem.setReUserName(userInfo.getName());
         problem.setStatus(ProblemStatus.PROCESSED);
         this.problemDao.update(problem);
     }

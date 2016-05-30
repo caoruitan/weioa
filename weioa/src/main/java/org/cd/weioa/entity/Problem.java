@@ -30,6 +30,12 @@ public class Problem {
     
     private Date createTime;
     
+    private String re;
+    
+    private String reUser;
+    
+    private String reUserName;
+    
     private String status;
 
     @Id
@@ -105,6 +111,33 @@ public class Problem {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    @Column(name = "re")
+    public String getRe() {
+        return re;
+    }
+
+    public void setRe(String re) {
+        this.re = re;
+    }
+
+    @Column(name = "re_user")
+    public String getReUser() {
+        return reUser;
+    }
+
+    public void setReUser(String reUser) {
+        this.reUser = reUser;
+    }
+
+    @Column(name = "re_user_name")
+    public String getReUserName() {
+        return reUserName;
+    }
+
+    public void setReUserName(String reUserName) {
+        this.reUserName = reUserName;
     }
 
     @Column(name = "status")
