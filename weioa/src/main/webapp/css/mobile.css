@@ -1,0 +1,365 @@
+@charset "utf-8";
+/* CSS Document */
+/* 登录 */
+.m-banner {
+	width: 100%;
+}
+.m-banner img {
+	width: 100%;
+}
+.m-inputs {
+	padding: 25px 10px 10px;
+}
+.m-inputs li {
+	border-bottom: 1px solid #ccc;
+	padding-left: 32px;
+	position: relative;
+}
+.m-inputs input {
+	border: none;
+	width: 100%;
+	height: 40px;
+	font-family: "Arial", "黑体";
+	font-size: 16px;
+	color: #000;
+}
+.m-inputs i {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 40px;
+	height: 40px;
+	display: block;
+	background: url(../res/images/del.png) no-repeat center center;
+	background-size: 20px 20px;
+	display:none;
+}
+.error{
+	font-family: "Arial", "黑体";
+	font-size: 16px;
+	color: #da251e;
+	padding:0 10px 0 43px;	
+}
+.m-btn {
+	padding:17px 10px 0;
+}
+.m-btn button {
+	width: 100%;
+	height: 42px;
+	border: 1px solid #da251e;
+	background-color: #da251e;
+	background-clip: padding-box;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	font-family: "Arial", "黑体";
+	font-size: 18px;
+	color: #fff;
+	letter-spacing: 10px;
+}
+.m-inputs .user {
+	background: url(../res/images/user.png) no-repeat 10px center;
+	background-size: 14px 15px;
+}
+.m-inputs .pass {
+	background: url(../res/images/pass.png) no-repeat 10px center;
+	background-size: 14px 16px;
+}
+input::-webkit-input-placeholder {
+ color: #cfcfcf;
+}
+input::-moz-placeholder {
+ color: #cfcfcf;
+}
+/* 首页页面的样式 */
+.m-banner {
+	width: 100%;
+}
+.m-banner img {
+	width: 100%;
+}
+.m-layout {
+	padding: 15px 10px 0 10px;
+}
+.m-layout a {
+	width: 50%;
+	display: inline-block;
+	float: left;
+	margin-bottom: 10px;
+}
+.m-layout a img {
+	width: 100%;
+}
+.m-layout a:nth-child(odd) {
+	padding-right: 5px;
+}
+.m-layout a:nth-child(even) {
+	padding-left: 5px;
+}
+.m-layout a span {
+	display: block;
+	text-align: center;
+	height: 65px;
+	background: #f4f4f4;
+	padding: 11px 0;
+}
+.m-layout a span em {
+	display: block;
+	font-family: "Arial", "黑体";
+	font-size: 12px;
+	color: #afafaf;
+}
+.m-layout a span em:first-child {
+	font-size: 14px;
+	color: #000;
+	margin-bottom: 5px;
+}
+/* 头部 */
+.header {
+	position: relative;
+	height: 43px;
+}
+.fix_header {
+	height: 44px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 99;
+	width: 100%
+}
+.header .header_shoot_hand .header_box {
+	background-color: #eee;
+	height: 43px;
+	position: relative;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.header .header_shoot_hand .header_box .header_left {
+	background-color: #eee;
+	height: 43px;
+	padding-left: 30px;
+	text-align: center;
+}
+.header .header_shoot_hand .header_box .but_l_arrow {
+	background-image: url(../res/images/back.png);
+	background-position: 13px center;
+	background-repeat: no-repeat;
+	background-size: 12px 21px;
+	height: 43px;
+	left: 1px;
+	position: absolute;
+	top: 0;
+	width: 43px;
+}
+.header .header_shoot_hand .header_box .header_icon {
+	height: 43px;
+	right: 0px;
+	position: absolute;
+	top: 0px;
+	width:60px;
+	background: url(../res/images/header_icon.png) no-repeat center center;
+	background-size: 26px 19px;
+}
+.header .header_shoot_hand .header_box .header_con {
+	background: #eee;
+	font-family: "Arial", "黑体";
+	font-size: 18px;
+	color: #333;
+	text-shadow: 0 1px #fff;
+	height: 43px;
+	line-height: 43px;
+	padding-right: 50px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+/* 列表页 */
+.list {
+	margin-top: 15px;
+}
+.list .list_con {
+	width: 50%;
+	padding:5px 10px;
+	float: left;
+}
+.list .list_con a {
+	display: inline-block;
+	width: 100%;
+}
+.list .list_con a dt {
+	width: 100%;
+	height: 100%;
+	border: 1px solid #ddd;
+	padding: 5px;
+	min-height:185px;
+	min-width:140px;
+	background-size: 100% 100%;
+}
+.list .list_con a dt img {
+	width: 100%;
+}
+.list .list_con a dd {
+	width: 100%;
+	text-align: center;
+	font-family: "黑体";
+	font-size: 14px;
+	color: #000;
+	display: inline-block;
+	margin: 6px 0 0 0 ;
+	height: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/*重点实验室*/
+.list .list_zdsys {
+	width: 25%;
+	float: left;
+	margin: 10px 0 10px 0;
+	padding: 10px 0 0 0;
+}
+.list .list_zdsys a {
+	display: inline-block;
+	width: 100%;
+}
+.list .list_zdsys a dt {
+	width: 40px;
+	height: 40px;
+	border-radius: 40px;
+	margin: 0 auto;
+	border: 1px solid #00CCCC;
+	padding: 10px;
+	background: url(../res/images/iconfont-bangongshi.png) center center no-repeat;
+	background-size: 24px 24px;
+}
+.list .list_zdsys a dd {
+	width: 100%;
+	text-align: center;
+	font-family: "黑体";
+	font-size: 14px;
+	color: #00CCCC;
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+}
+
+/*通用列表 带右箭头*/
+.list .list_common {
+	width: 100%;
+	float: left;
+}
+.list .list_common a {
+	display: inline-block;
+	width: 100%;
+}
+.list .list_common a li {
+	width: 94%;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	font-size: 16px;
+	border-bottom: 1px solid #f4f4f4;
+	color: #666;
+	text-overflow:ellipsis;
+	overflow: hidden;
+	padding: 0 30px 0 20px;
+	background: url(../res/images/iconfont-bangongshi.png) center left no-repeat;
+	background-size: 18px 18px;
+	position: relative;
+}
+.list .list_common a li i{
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	right: 4px;
+	top: 0px;
+	background: url(../res/images/iconfont-youjiantou.png) center right no-repeat;
+	background-size: 20px 20px;
+}
+/*详情页*/
+.m-detail {
+	width: 100%;
+	padding: 0 10px 20px 10px;
+	font-family: "Arial", "黑体";
+	color:#000;
+	line-height: 180%;
+}
+.m-detail h2 {
+	font-weight: bold;
+	font-size: 21px;
+	text-align: left;
+	height: auto;
+	line-height: 40px;
+	color: #DA251E;
+}
+.m-detail p {
+	font-size: 19px;
+	text-indent: 30px;
+	line-height: 30px;
+	margin-top: 0;
+}
+.m-detail a{
+	display: block;
+	margin-bottom: 50px;
+}
+.m-detail img{
+	display: block;
+	margin: 10px auto;
+	max-width: 320px;
+	
+}
+.m-cover {
+	display: none;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	opacity: 0.7;
+	position: fixed;
+	left: 0;
+	top: 43px;
+	z-index: 90;
+}
+.m-gotoTop{
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+	color: #ffffff;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 4px;
+	background: rgba(0,0,0,0.3);
+}
+.m-pop {
+	overflow: visible;
+	height: auto;
+	display: none;
+	font-family: "Arial", "黑体";
+	width: 75%;
+	position: absolute;
+	top: 43px;
+	right: -75%;
+	background: #efefef;
+	z-index: 98;
+	-webkit-transition: right 0.3s ease-in 0s;
+	transition: right 0.3s ease-in 0s;
+}
+.m-pop h2 {
+	font-size: 21px;
+	height: 30px;
+	line-height: 30px;
+	font-weight: normal;
+}
+.m-pop ul {
+	padding: 0 10px;
+}
+.m-pop ul li a {
+	font-size: 14px;
+	padding: 6px 0;
+	display: block;
+	width: 100%;
+}
+.m-pop .pop_con {
+	padding: 15px;
+}

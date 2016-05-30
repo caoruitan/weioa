@@ -1,0 +1,749 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+
+/*基本样式*/
+
+
+/*调用重置和布局*/
+
+@import "reset.css";
+html {
+	height: 100%;
+	background: #F4F0E7;
+}
+
+body {
+	font-size: 12px;
+	color: #333;
+	font-family: Arial, "宋体";
+	/*height: 100%;*/
+}
+
+html,
+body,
+div,
+span,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+address,
+big,
+cite,
+code,
+del,
+em,
+font,
+img,
+ins,
+small,
+strong,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend {
+	margin: 0;
+	padding: 0;
+}
+
+ol,
+ul,
+li {
+	list-style: none
+}
+
+:focus {
+	outline: 0
+}
+
+a img {
+	border: 0
+}
+
+i {
+	font-style: normal
+}
+
+img {
+	vertical-align: middle
+}
+
+table {
+	empty-cells: show
+}
+
+ins {
+	text-decoration: none
+}
+
+del {
+	text-decoration: line-through
+}
+
+em {
+	font-style: normal;
+	font-weight: normal
+}
+
+b {
+	font-weight: normal
+}
+
+button::-moz-focus-inner,
+input[type=reset]::-moz-focus-inner,
+input[type=button]::-moz-focus-inner,
+input[type=submit]::-moz-focus-inner,
+input[type=file]>input[type=button]::-moz-focus-inner {
+	border: 0;
+	padding: 0
+}
+
+.fl {
+	float: left
+}
+
+.fr {
+	float: right
+}
+
+.fn {
+	float: none
+}
+
+.al {
+	text-align: left
+}
+
+.ac {
+	text-align: center
+}
+
+.ar {
+	text-align: right
+}
+
+.clr {
+	display: block;
+	overflow: hidden;
+	clear: both;
+	height: 0;
+	line-height: 0;
+	font-size: 0
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden
+}
+
+.clearfix {
+	display: inline-table
+}
+
+*html .clearfix {
+	height: 1%
+}
+
+.clearfix {
+	display: block
+}
+
+*+html .clearfix {
+	min-height: 1%
+}
+
+.overflow {
+	overflow: hidden
+}
+
+.block {
+	display: block;
+	overflow: hidden
+}
+
+.hide {
+	display: none
+}
+
+.zong {
+	color: #a48269
+}
+
+.red {
+	color: #e4393c
+}
+
+.invisible {
+	visibility: hidden
+}
+
+input[type=text].validate-error {
+	border: 1px solid #e4393c
+}
+input[type=date].validate-error {
+	border: 1px solid #e4393c
+}
+textarea.validate-error {
+	border: 1px solid #e4393c
+}
+label.validate-error {
+	color: #e4393c
+}
+
+body {
+	/*height:100%;会导致浏览器的scroll事件不能被触发*/
+	font: 12px/150% Arial, Verdana, "\5b8b\4f53";
+	color: #666;
+	background: #fff;
+	_background-image: url(about:blank);
+	_background-attachment: fixed;
+	-moz-user-select: none;
+	/*火狐*/
+	-webkit-user-select: none;
+	/*webkit浏览器*/
+	-ms-user-select: none;
+	/*IE10*/
+	-khtml-user-select: none;
+	/*早期浏览器*/
+	user-select: none;
+}
+
+h1 {
+	font: 20px "microsoft yahei", "\5b8b\4f53"
+}
+
+h2,
+h3 {
+	font-size: 14px
+}
+
+h4,
+h5,
+h6 {
+	font-size: 12px
+}
+
+a:link,
+a:visited {
+	text-decoration: none
+}
+
+
+/*通用样式 ado*/
+
+
+/*居中*/
+
+.m-center {
+	margin: 0 auto;
+	float: none !important;
+}
+
+.m-auto-height {
+	height: auto !important;
+}
+.m-t-10{margin-top: 10px;}
+
+/*宽度*/
+
+.w-20 {
+	width: 20%;
+}
+
+.w-30 {
+	width: 30%;
+}
+
+.w-40 {
+	width: 40%;
+}
+
+.w-50 {
+	width: 50%;
+}
+
+.w-60 {
+	width: 60%;
+}
+
+.w-70 {
+	width: 70%;
+}
+
+.w-80 {
+	width: 80%;
+}
+
+.w-100 {
+	width: 100%;
+}
+
+
+/*颜色*/
+
+.bg-orange {
+	background: #FF9900;
+}
+
+.bg-blue {
+	background: #19A6C9;
+}
+
+.bg-gray {
+	background: #cccccc;
+}
+
+
+/*右箭头*/
+
+.m-right {
+	background: url(../res/images/you.png) center center;
+	display: block;
+	width: 16px;
+	height: 16px;
+	float: right;
+	background-size: 18px;
+	margin: 7px 0 0 0;
+}
+
+
+/*文本框*/
+
+.m-textarea {
+	border: 1px solid #CCCCCC;
+	width: 100%;
+}
+
+/*日期控件*/
+.m-comm-input{
+	min-width:96%;
+	height: 30px;
+	border: 1px solid #CCCCCC;
+	width: 100%;
+}
+
+/*按钮*/
+
+.m-btn {
+	display: block;
+	float: left;
+	line-height: 40px;
+	height: 40px;
+}
+
+.m-btn a {
+	display: block;
+	margin: 0 auto;
+	width: 96%;
+	text-align: center;
+	color: #ffffff;
+	border-radius: 2px;
+}
+
+.m-small-btn {
+	line-height: 26px;
+	height: 26px;
+}
+
+
+/*顶端栏 开始*/
+
+.m-header {
+	position: fixed;
+	z-index: 10000;
+	top: 0;
+	left: 0;
+	height: 40px;
+	background: #333333;
+	width: 100%;
+	line-height: 40px;
+	font-size: 16px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.m-header .m-return {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 40px;
+	width: 40px;
+	background: url(../res/images/zuo1.png) center center no-repeat;
+	background-size: 20px;
+}
+
+.m-header .m-option {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 40px;
+	width: 40px;
+}
+
+.m-header .m-option img {
+	width: 20px;
+	height: 20px;
+}
+
+
+/*顶端栏 结束*/
+
+
+/*操作栏 开始*/
+
+.m-footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 60px;
+	background: #FFFFFF;
+	border-top: 1px solid #f2f2f2;
+	width: 100%;
+	font-size: 16px;
+	text-align: center;
+	color: #333;
+	padding: 10px;
+}
+
+
+/*操作栏 结束*/
+
+.m-layout {
+	float: left;
+	width: 100%;
+	height: 100%;
+	/*padding: 40px 0 70px 0;*/
+	padding: 0px 0 70px 0;
+}
+
+.m-layout .m-box-title {
+	width: 96%;
+	background:inherit;
+	border-left: 4px solid #19A6C9;
+	margin: 10px 10px 0px 10px;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 0 10px 0 4px;
+	position: relative;
+	float: left;
+}
+
+.m-layout .m-box-title .m-dropdown {
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 20px;
+	width: 20px;
+	background: url(../res/images/jt-shang.png) no-repeat center center;
+	background-size: 20px;
+}
+
+.m-layout .m-box-title .m-dropdown.up {
+  -webkit-transform:rotate(-180deg);
+  -moz-transform:rotate(-180deg);
+  rotation:-180deg;
+}
+.m-layout .m-dropdown-box{
+}
+
+.m-layout .m-box {
+	width: 100%;
+	background: #FFFFFF;
+	border: 1px solid #D7D7D7;
+	border-right: none;
+	border-left:none;
+	margin-top: 10px;
+	padding: 0 10px 0 10px;
+	float: left;
+}
+
+.m-layout .m-box li {
+	height: 40px;
+	margin: 0 auto;
+	padding: 5px 0 5px 0;
+	line-height: 30px;
+	border-bottom: 1px solid #F2F2F2;
+}
+.m-layout .m-box li img{
+	max-width: 100px;
+}
+
+.m-layout .m-box li p:first-child {
+	float: left;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.m-layout .m-box li p:first-child img {
+	float: left;
+	margin: 5px 4px 0 0;
+	width: 18px;
+	height: 18px;
+}
+
+.m-layout .m-box li p:last-child {
+	float: right;
+}
+
+.m-layout .m-box li p:last-child img {
+	float: right;
+	margin: 5px 0 0 4px;
+	width: 18px;
+	height: 18px;
+}
+.m-layout .m-box  .m-file{
+	width: 100px;
+	margin: 10px 10px 10px 0;
+	float: left;
+	text-align: center;
+}
+.m-layout .m-box .m-file .m-file-img{
+	width: 60px;
+	margin: 0 auto;
+}
+.m-layout .m-box .m-file .m-file-title{
+	float: left;
+	width: 100px;
+	text-align: center;
+}
+
+/*================       控件       ====================*/
+
+
+/*标签页控件 开始*/
+
+.m-tabs {
+	margin-top: 0px;
+	width: 100%;
+	height: 32px;
+	overflow: hidden;
+	position: fixed;
+	top: 0px;
+	z-index: 1000;
+	background: #ffffff;
+}
+
+.m-tabs a {
+	box-sizing: border-box;
+	font-size: 1.125em;
+	font-weight: normal;
+	text-align: center;
+	float: left;
+	height: 32px;
+	line-height: 30px;
+	color: #999999;
+	padding: 0 0 0 0;
+	width: 50%;
+	border-bottom: 1px solid #ccc;
+}
+
+.m-tabs a.active {
+	border-bottom: 3px solid #138FAD;
+	color: #138FAD;
+}
+
+.m-tabs-page {
+	display: none;
+	margin-top: 34px;
+	padding: 1px 0 10px 0;
+}
+
+.m-tabs-page-actived {
+	display: block;
+}
+
+
+/*标签页控件 结束*/
+
+
+/*选择条件控件 开始*/
+
+.m-select {
+	float: left;
+	width: 100%;
+	height: auto;
+}
+
+.m-select span {
+	display: block;
+	float: left;
+	text-align: center;
+	color: #999999;
+	background: #F2F2F2;
+	border: 4px solid #FFFFFF;
+}
+
+.m-select span.selected {
+	display: block;
+	float: left;
+	text-align: center;
+	color: #ffffff;
+	background: #ff9900 url(../res/images/xz.png) right 1px bottom 1px no-repeat;
+	background-size: 16px;
+}
+
+
+/*选择条件控件 结束*/
+
+/*评价控件 开始*/
+.m-star{}
+.m-star span{
+	display: block;
+	float: left;
+	width: 24px;
+	height: 24px;
+	margin: 0 6px 0 0;
+	background: url(../res/images/xing-hui.png) no-repeat;
+	background-size: 24px;
+}
+.m-star span.selected{
+	background: url(../res/images/xing-hong.png) no-repeat;
+	background-size: 24px;
+}
+
+/*评价控件 结束*/
+
+/*大事记控件 开始*/
+
+.m-flow {
+	width: 100%;
+	padding-left: 40px;
+	float: left;
+	background: #FFFFFF;
+}
+
+
+/*头部*/
+
+.m-flow .m-flow-header {
+	position: relative;
+	width: 100%;
+	height: 60px;
+	padding: 10px 0 0 0;
+}
+
+.m-flow .m-flow-header p {
+	width: 100%;
+	height: 24px;
+	padding: 4px 0 0 30px;
+}
+
+.m-flow .m-flow-avatar {
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	left: -25px;
+	border: 2px solid #19A6C9;
+}
+
+
+/*flow*/
+
+.m-flow .m-flow-box {
+	position: relative;
+	width: 100%;
+	height: auto;
+	float: left;
+	border-left: 1px solid #19A6C9;
+	padding: 30px 0 0 0;
+}
+
+.m-flow .m-flow-box li {
+	width: 100%;
+	height: auto;
+	padding: 0px 10px 10px 20px;
+	position: relative;
+	margin: 0 0 10px 0;
+	float: left;
+}
+
+.m-flow .m-flow-box li .dot {
+	position: absolute;
+	left: -7px;
+	top:10px;
+	display: block;
+	height: 12px;
+	width: 12px;
+	border: 2px solid #CCCCCC;
+	background: #ffffff;
+	border-radius: 10px;
+}
+
+.m-flow .m-flow-box li p{
+	width: 100%;
+	height: auto;
+	background: red;
+	padding: 4px 0 4px 10px;
+	position: relative;
+	border-radius: 4px;
+	background: #F2F2F2;
+	border: 1px solid #F2F2F2;
+	color: #333;
+	min-height: 40px;
+	float: left;
+	
+}
+
+.m-flow .m-flow-box li p span{
+	display: block;
+	float: left;
+	width: 100%;
+}
+.m-flow .m-flow-box li p img{
+	max-width: 200px;
+	min-width: 50px;
+	display: block;
+}
+.m-flow .m-flow-box li p .arrow {
+	position: absolute;
+	top: 10px;
+	left: -10px;
+	width: 10px;
+	height: 10px;
+	background: url(../res/images/arrow-gray.png);
+	background-size: 10px;
+}
+
+
+.m-flow .m-flow-box li.active p {
+	background: #19A6C9;
+	border: 1px solid #19A6C9;
+	color: #FFFFFF;
+}
+.m-flow .m-flow-box li.active p .arrow {
+	background: url(../res/images/arrow.png);
+	background-size: 10px;
+}
+.m-flow .m-flow-box li.active .dot{
+	border: 2px solid #19A6C9;
+}
+
+
+/*大事记控件 结束*/
+
+
+/*================       控件    结束   ====================*/

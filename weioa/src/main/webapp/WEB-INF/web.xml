@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+    
+    <!-- 配置SPRING容器，加载公共资源 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            WEB-INF/classes/context/applicationContext_core.xml
+            WEB-INF/classes/context/applicationContext_dao.xml
+        </param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    
+    <!-- 配置SPRING-MVC入口SERVLET，负责请求过滤与转发，并配置其私有容器 -->
+    <servlet>
+        <servlet-name>Springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                classpath:context/applicationContext_mvc.xml
+            </param-value>
+        </init-param>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Springmvc</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    
+    <!-- 微信Oauth过滤器 -->
+    <filter>
+        <filter-name>WeixinOauthFilter</filter-name>
+        <filter-class>org.cd.weioa.filter.WeixinOauthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>WeixinOauthFilter</filter-name>
+        <url-pattern>*.htm</url-pattern>
+    </filter-mapping>
+
+    <!-- 设置编码过滤器 -->
+    <filter>
+        <filter-name>Set Character Encoding</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>Set Character Encoding</filter-name>
+        <url-pattern>*.htm</url-pattern>
+    </filter-mapping>
+    
+    <!-- 登陆页面及错误页面 -->
+    <welcome-file-list>
+        <welcome-file>/index.jsp</welcome-file>
+    </welcome-file-list>
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+</web-app>
