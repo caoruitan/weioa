@@ -9,7 +9,7 @@
 <html>
 
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta charset="utf-8">
     <link href="${basePath}/css/pc/index.css" rel="stylesheet" type="text/css" />
     <script src="${basePath}/js/jquery183.js" type="text/javascript" charset="utf-8"></script>

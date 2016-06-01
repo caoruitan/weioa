@@ -12,19 +12,26 @@ import java.util.List;
  * Created by xuyang on 16/5/13.
  */
 @Service
+@Transactional
 public class WorkFeedBackService {
 
     @Autowired
     private WorkFeedBackDao workFeedBackDao;
 
-    @Transactional
     public WorkFeedBack save(WorkFeedBack feedBack) {
 
         this.workFeedBackDao.save(feedBack);
         return feedBack;
     }
 
-    @Transactional
+    public WorkFeedBack update(WorkFeedBack feedBack) {
+
+        this.workFeedBackDao.deleteFiles(feedBack.getId());
+
+        this.workFeedBackDao.update(feedBack);
+        return feedBack;
+    }
+
     public WorkFeedBack findByWorkNo(String workNo) {
 
         List<WorkFeedBack> feedBacks = this.workFeedBackDao.findByWorkNo(workNo);

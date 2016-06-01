@@ -17078,13 +17078,8 @@ webpackJsonp([1,0],[
 	  name: 'file',
 	  showUploadList: true,
 	  action: WORK.ctx + '/workorder/feedback/upload',
-	  multiple: true,
-	  defaultFileList: []
+	  multiple: true
 	};
-
-	function noop() {
-	  return false;
-	}
 
 	var Feedback = _react2.default.createClass({
 	  displayName: 'Feedback',
@@ -17099,7 +17094,10 @@ webpackJsonp([1,0],[
 	      finance: {
 	        "financeNames": [],
 	        "financeUrls": []
-	      }
+	      },
+	      id: "",
+	      defList1: [],
+	      defList2: []
 	    };
 	  },
 
@@ -17153,7 +17151,8 @@ webpackJsonp([1,0],[
 	            "workNames": _this.state.work.workNames,
 	            "workUrls": _this.state.work.workUrls,
 	            "financeNames": _this.state.finance.financeNames,
-	            "financeUrls": _this.state.finance.financeUrls
+	            "financeUrls": _this.state.finance.financeUrls,
+	            "id": _this.state.id
 	          }, values), function (response) {
 	            var json = jQuery.parseJSON(response);
 
@@ -17243,6 +17242,59 @@ webpackJsonp([1,0],[
 	      _this.state.finance.financeUrls = work.urls;
 	    }
 	  },
+
+	  handleBlurList: function handleBlurList() {
+
+	    var _this = this;
+
+	    var getFieldValue = this.props.form.getFieldValue;
+
+
+	    $.post(WORK.ctx + "/workorder/feedback/defList", { "workNo": getFieldValue('workNo') }, function (result) {
+	      var json = jQuery.parseJSON(result);
+	      var list1 = [];
+	      var list2 = [];
+	      if (json.workId) {
+	        _this.setState({ id: json.workId });
+	        $.each(json.attrs, function (i, item) {
+	          if (item.attrType == 0) {
+	            list1.push({
+	              uid: i,
+	              name: item.fileName,
+	              status: 'done',
+	              url: WORK.ctx + item.url
+	            });
+	          } else {
+	            list2.push({
+	              uid: i,
+	              name: item.fileName,
+	              status: 'done',
+	              url: WORK.ctx + item.url
+	            });
+	          }
+	        });
+	        _this.setState({ defList1: [{
+	            uid: -1,
+	            name: 'xxx.png',
+	            status: 'done',
+	            url: 'http://www.baidu.com/xxx.png'
+	          }, {
+	            uid: -2,
+	            name: 'yyy.png',
+	            status: 'done',
+	            url: 'http://www.baidu.com/yyy.png'
+	          }] });
+	        _this.setState({ defList2: list2 });
+	      }
+
+	      _this.forceUpdate();
+	      console.log('defList1', _this.state.defList1);
+	      console.log('defList2', _this.state.defList2);
+	    });
+
+	    _this.forceUpdate();
+	  },
+
 	  render: function render() {
 	    var _props$form2 = this.props.form;
 	    var getFieldProps = _props$form2.getFieldProps;
@@ -17276,7 +17328,7 @@ webpackJsonp([1,0],[
 	          label: '工作单号：',
 	          hasFeedback: true,
 	          help: isFieldValidating('workNo') ? '校验中...' : (getFieldError('workNo') || []).join(', ') }),
-	        _react2.default.createElement(_input2.default, _extends({}, workNoProps, { placeholder: '您上传报告对应的工作单号' }))
+	        _react2.default.createElement(_input2.default, _extends({}, workNoProps, { placeholder: '您上传报告对应的工作单号', onBlur: this.handleBlurList }))
 	      ),
 	      _react2.default.createElement(
 	        FormItem,
@@ -17291,14 +17343,14 @@ webpackJsonp([1,0],[
 	        _extends({}, formItemLayout, {
 	          label: '工作报告：'
 	        }),
-	        _react2.default.createElement(_UploadFile2.default, { onUpload: this.onUpload, type: 0 })
+	        _react2.default.createElement(_UploadFile2.default, { onUpload: this.onUpload, type: 0, defList: this.state.defList1 })
 	      ),
 	      _react2.default.createElement(
 	        FormItem,
 	        _extends({}, formItemLayout, {
 	          label: '财务报告：'
 	        }),
-	        _react2.default.createElement(_UploadFile2.default, { onUpload: this.onUpload, type: 1 })
+	        _react2.default.createElement(_UploadFile2.default, { onUpload: this.onUpload, type: 1, defList: this.state.defList2 })
 	      ),
 	      _react2.default.createElement(
 	        FormItem,
@@ -17347,17 +17399,15 @@ webpackJsonp([1,0],[
 	    displayName: 'UploadFile',
 	    getInitialState: function getInitialState() {
 	        return {
-	            fileList: [{
-	                uid: -1,
-	                name: 'xxx.png',
-	                status: 'done',
-	                url: 'http://www.baidu.com/xxx.png'
-	            }]
+	            fileList: [],
+	            defList: []
 	        };
 	    },
 	    handleChange: function handleChange(info) {
 
 	        var fileList = info.fileList;
+	        console.log("info", info);
+	        console.log("handleChange", fileList);
 
 	        var result = {};
 	        var workNames = [];
@@ -17389,14 +17439,29 @@ webpackJsonp([1,0],[
 	        this.setState({ fileList: fileList });
 	    },
 
+
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        var _this = this;
+	        if (nextProps.defList) {
+	            _this.setState({ defList: nextProps.defList });
+	        }
+	    },
+
+	    componentDidUpdate: function componentDidUpdate() {
+	        console.log('componentDidUpdate');
+	    },
+
 	    render: function render() {
+
 	        var props = {
 	            name: 'file',
 	            onChange: this.handleChange,
 	            multiple: true,
 	            showUploadList: true,
-	            action: WORK.ctx + '/workorder/feedback/upload'
+	            action: WORK.ctx + '/workorder/feedback/upload',
+	            defaultFileList: this.props.defList
 	        };
+	        console.log("UploadFile render" + this.props.type, props);
 	        return _react2.default.createElement(
 	            'div',
 	            { style: { marginTop: 10, marginBottom: 120, height: 120 } },

@@ -1,7 +1,14 @@
 package org.cd.weioa.action;
 
+import com.google.gson.JsonArray;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
+import org.apache.commons.lang.StringUtils;
 import org.cd.weioa.entity.FeedBackAttrType;
 import org.cd.weioa.entity.WorkFeedBack;
+import org.cd.weioa.entity.WorkFeedBackAttacment;
 import org.cd.weioa.service.WorkFeedBackService;
 import org.cd.weioa.service.WorkOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +99,12 @@ public class WorkFeedBackAction {
         }
         feedBack.setCreateTime(new Date());
 
-        workFeedBackService.save(feedBack);
+        if(StringUtils.isEmpty(feedBack.getId())) {
+            workFeedBackService.save(feedBack);
+        }else {
+            workFeedBackService.update(feedBack);
+        }
+
 
         return "{\"success\":true}";
     }
@@ -106,4 +118,26 @@ public class WorkFeedBackAction {
         }
         return "{\"success\":false}";
     }
+
+    @RequestMapping(value = "defList")
+    @ResponseBody
+    public String defList(String workNo) {
+
+        WorkFeedBack workFeed = this.workFeedBackService.findByWorkNo(workNo);
+
+        if(workFeed != null) {
+            JSONObject result = new JSONObject();
+            JsonConfig jsonConfig = new JsonConfig();
+            jsonConfig.setIgnoreDefaultExcludes(false);
+            jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);
+            jsonConfig.setExcludes(new String[] {"workFeedBack"});
+
+            result.put("attrs", JSONArray.fromObject(workFeed.getAttacments(), jsonConfig));
+            result.put("workId", workFeed.getId());
+            return result.toString();
+        }else {
+            return null;
+        }
+    }
+
 }
