@@ -17130,13 +17130,11 @@ webpackJsonp([1,0],[
 
 	    this.props.form.validateFields(function (errors, values) {
 	      if (!!errors) {
-	        console.log('请正确填写表单');
 	        //this.openNotificationWithIcon('error', '错误', '请正确填写表单');
 	        _message2.default.error('请正确填写表单', 10);
 	        return;
 	      }
 	      if (_this2.isEmptyUpload()) {
-	        console.log('请上传文件');
 	        _message2.default.error('请上传文件', 10);
 	        //this.openNotificationWithIcon('error', '错误', '请上传文件');
 	        return;
@@ -17234,12 +17232,27 @@ webpackJsonp([1,0],[
 
 	  onUpload: function onUpload(work, type) {
 	    var _this = this;
+
 	    if (type == 0) {
-	      _this.state.work.workNames = work.names;
-	      _this.state.work.workUrls = work.urls;
+	      var work1 = {
+	        workNames: [],
+	        workUrls: []
+	      };
+	      $.each(work, function (i, item) {
+	        work1.workNames.push(item.name);
+	        work1.workUrls.push(item.url);
+	      });
+	      _this.state.work = work1;
 	    } else {
-	      _this.state.finance.financeNames = work.names;
-	      _this.state.finance.financeUrls = work.urls;
+	      var finance1 = {
+	        financeNames: [],
+	        financeUrls: []
+	      };
+	      $.each(work, function (i, item) {
+	        finance1.financeNames.push(item.name);
+	        finance1.financeUrls.push(item.url);
+	      });
+	      _this.state.finance = finance1;
 	    }
 	  },
 
@@ -17262,37 +17275,30 @@ webpackJsonp([1,0],[
 	              uid: i,
 	              name: item.fileName,
 	              status: 'done',
-	              url: WORK.ctx + item.url
+	              url: item.url
 	            });
+	            _this.state.work.workNames.push(item.fileName);
+	            _this.state.work.workUrls.push(item.url);
 	          } else {
 	            list2.push({
 	              uid: i,
 	              name: item.fileName,
 	              status: 'done',
-	              url: WORK.ctx + item.url
+	              url: item.url
 	            });
+	            _this.state.finance.financeNames.push(item.fileName);
+	            _this.state.finance.financeUrls.push(item.url);
 	          }
 	        });
-	        _this.setState({ defList1: [{
-	            uid: -1,
-	            name: 'xxx.png',
-	            status: 'done',
-	            url: 'http://www.baidu.com/xxx.png'
-	          }, {
-	            uid: -2,
-	            name: 'yyy.png',
-	            status: 'done',
-	            url: 'http://www.baidu.com/yyy.png'
-	          }] });
+
+	        _this.setState({ defList1: list1 });
 	        _this.setState({ defList2: list2 });
 	      }
 
-	      _this.forceUpdate();
-	      console.log('defList1', _this.state.defList1);
-	      console.log('defList2', _this.state.defList2);
+	      //_this.forceUpdate();
 	    });
 
-	    _this.forceUpdate();
+	    //_this.forceUpdate();
 	  },
 
 	  render: function render() {
@@ -17399,8 +17405,9 @@ webpackJsonp([1,0],[
 	    displayName: 'UploadFile',
 	    getInitialState: function getInitialState() {
 	        return {
-	            fileList: [],
+	            fileList: this.props.defList,
 	            defList: []
+
 	        };
 	    },
 	    handleChange: function handleChange(info) {
@@ -17434,7 +17441,7 @@ webpackJsonp([1,0],[
 	        });
 
 	        result = { names: workNames, urls: workUrls };
-	        this.props.onUpload(result, this.props.type);
+	        this.props.onUpload(fileList, this.props.type);
 
 	        this.setState({ fileList: fileList });
 	    },
@@ -17443,12 +17450,8 @@ webpackJsonp([1,0],[
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	        var _this = this;
 	        if (nextProps.defList) {
-	            _this.setState({ defList: nextProps.defList });
+	            _this.setState({ fileList: $.extend(nextProps.defList, _this.state.fileList) });
 	        }
-	    },
-
-	    componentDidUpdate: function componentDidUpdate() {
-	        console.log('componentDidUpdate');
 	    },
 
 	    render: function render() {
@@ -17459,9 +17462,9 @@ webpackJsonp([1,0],[
 	            multiple: true,
 	            showUploadList: true,
 	            action: WORK.ctx + '/workorder/feedback/upload',
-	            defaultFileList: this.props.defList
+	            fileList: this.state.fileList
 	        };
-	        console.log("UploadFile render" + this.props.type, props);
+
 	        return _react2.default.createElement(
 	            'div',
 	            { style: { marginTop: 10, marginBottom: 120, height: 120 } },
