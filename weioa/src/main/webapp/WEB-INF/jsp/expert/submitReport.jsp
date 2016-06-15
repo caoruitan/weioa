@@ -32,7 +32,7 @@
 						<p></p>
 					</li>
 					<li class="m-auto-height">
-						<pre>请用PC浏览器访问以下地址进行报告上传，上传成功后再到此页面进行提交：${basePath}/workorder/feedback<br/>您的工作单号为：${workOrderId}<br/>您的企业号用户ID为：${userInfo.userId}</pre>
+						<pre>请用PC浏览器访问以下地址进行报告上传，上传成功后再到此页面进行提交：${basePath}/workorder/feedback/submitReport.do<br/>您的工作单号为：${workOrderId}<br/>您的企业号用户ID为：${userInfo.userId}</pre>
 					</li>
 				</div>
 			</c:if>

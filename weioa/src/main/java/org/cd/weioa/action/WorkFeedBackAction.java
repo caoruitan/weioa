@@ -36,7 +36,7 @@ public class WorkFeedBackAction {
     @Autowired
     private WorkFeedBackService workFeedBackService;
 
-    @RequestMapping("")
+    @RequestMapping("submitReport")
     public String index() {
         return "feedback/index";
     }

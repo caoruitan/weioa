@@ -27,17 +27,44 @@
 		<input type="hidden" name="role" value="${role}">
 		<!-- B 内容信息 -->
 		<div class="m-layout">
-			<!--<div class="m-header"><a href="#"><span class="m-return"></span></a>工作单详情<span class="m-option"></span></div>-->
-			<div class="m-box">
-				<c:forEach items="${charts}" var="chart">
-					<li style="border-bottom:0px;">
-						<p><img src="${chart.senderPhoto}"/>${chart.senderName}&nbsp;[<fmt:formatDate value="${chart.time}" type="both" dateStyle="medium" timeStyle="medium"/>]</p>
+			<div class="m-box-title">工单详情<span class="m-dropdown"></span></div>
+			<div class="m-dropdown-box">
+				<div class="m-box">
+					<li>
+						<p><img src="${basePath}/res/images/qz.png" />申请国家队</p>
+						<p>${workOrder.workForTeam}</p>
+					</li>
+					<li>
+						<p><img src="${basePath}/res/images/dd.png" />下队地点</p>
+						<p>${workOrder.workSpace}</p>
+					</li>
+					<li>
+						<p><img src="${basePath}/res/images/sj.png" />申请下队时间</p>
+						<p>${workOrder.workTime}</p>
+					</li>
+					<li>
+						<p><img src="${basePath}/res/images/wt.png" />拟重点解决问题</p>
 						<p></p>
 					</li>
 					<li class="m-auto-height">
-						<pre>${chart.content}</pre>
+						<pre>${workOrder.workForReason}<!-- <img src="${basePath}/res/images/nopic.png" /> --></pre>
 					</li>
-				</c:forEach>
+				</div>
+			</div>
+			
+			<div class="m-box-title">沟通记录<span class="m-dropdown"></span></div>
+			<div class="m-dropdown-box">
+				<div class="m-box">
+					<c:forEach items="${charts}" var="chart">
+						<li style="border-bottom:0px;">
+							<p><img src="${chart.senderPhoto}"/>${chart.senderName}&nbsp;[<fmt:formatDate value="${chart.time}" type="both" dateStyle="medium" timeStyle="medium"/>]</p>
+							<p></p>
+						</li>
+						<li class="m-auto-height">
+							<pre>${chart.content}</pre>
+						</li>
+					</c:forEach>
+				</div>
 			</div>
 		</div>
 		<c:if test='${!empty edit && edit eq "true"}'>

@@ -7,16 +7,16 @@ public class Configuration {
     
     public static String TEAM_APP_ID="9";
     
-    public static String OFFICE_APP_ID="9";
+    public static String OFFICE_APP_ID="14";
     
-    public static String LEADER_APP_ID="9";
+    public static String LEADER_APP_ID="15";
     
-    public static String EXPERT_APP_ID="9";
+    public static String EXPERT_APP_ID="16";
     
-    public static String EXPERT_DEP_ID="2";
+    public static String EXPERT_DEP_ID="31";
     
-    public static String OFFICE_MSG_SEND="\"touser\":\"caort\"";
+    public static String OFFICE_MSG_SEND="\"toparty\":\"30\"";
     
-    public static String LEADER_MSG_SEND="\"touser\":\"caort\"";
+    public static String LEADER_MSG_SEND="\"toparty\":\"33\"";
     
 }

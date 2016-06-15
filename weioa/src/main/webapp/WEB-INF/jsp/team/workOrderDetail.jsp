@@ -143,6 +143,7 @@
 			</div>
 				
 			<c:if test='${workOrder.workOrderStatus ne "COFIRM" && workOrder.workOrderStatus ne "APPROVAL" && workOrder.workOrderStatus ne "CANCEL"}'>
+				<%--
 				<div class="m-box-title">审批记录<span class="m-dropdown"></span></div>
 				<div class="m-dropdown-box">
 					<div class="m-box">
@@ -154,6 +155,7 @@
 						</c:forEach>
 					</div>
 				</div>
+				--%>
 			
 				<div class="m-box-title">专家工作日志<span class="m-dropdown"></span></div>
 				<div class="m-dropdown-box">

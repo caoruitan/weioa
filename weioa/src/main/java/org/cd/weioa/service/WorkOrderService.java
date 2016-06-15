@@ -1,6 +1,7 @@
 package org.cd.weioa.service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -221,7 +222,8 @@ public class WorkOrderService {
         return order;
     }
     
-    public void carbonCopyWorkOrder(String workOrderId, List<String> users, String content) {
+    public List<WorkOrderCarbonCopy> carbonCopyWorkOrder(String workOrderId, List<String> users, String content) {
+        List<WorkOrderCarbonCopy> savedCCList = new ArrayList<WorkOrderCarbonCopy>();
         if(users!= null && users.size() > 0) {
             for(String user : users) {
                 List<WorkOrderCarbonCopy> list = this.workOrderCarbonCopyDao.getCarbonCopyByWorkOrderIdAndUserId(workOrderId, user);
@@ -231,9 +233,11 @@ public class WorkOrderService {
                     cc.setCarbonCopyUser(user);
                     cc.setCarbonCopyContent(content);
                     this.workOrderCarbonCopyDao.save(cc);
+                    savedCCList.add(cc);
                 }
             }
         }
+        return savedCCList;
     }
     
     public WorkOrder cancelWorkOrder(String workOrderId) {

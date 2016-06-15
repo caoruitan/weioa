@@ -78,11 +78,13 @@ public class WorkOrderForOfficeAction {
     @RequestMapping("viewChart")
     public String toSendMessageInChart(HttpServletRequest request) {
         String workOrderId = request.getParameter("workOrderId");
+        WorkOrder order = this.workOrderService.getWorkOrderById(workOrderId);
         String sessionId = request.getParameter("sessionId");
         String role = request.getParameter("role");
         String edit = request.getParameter("edit");
         List<WorkOrderChart> charts = this.workOrderService.getChartsBySession(workOrderId, sessionId);
         request.setAttribute("workOrderId", workOrderId);
+        request.setAttribute("workOrder", order);
         request.setAttribute("sessionId", sessionId);
         request.setAttribute("role", role);
         request.setAttribute("edit", edit);
@@ -98,6 +100,8 @@ public class WorkOrderForOfficeAction {
         String content = request.getParameter("content");
         UserInfo sender = (UserInfo) request.getSession(true).getAttribute("userInfo");
         this.workOrderService.sendMessageInChart(workOrderId, sessionId, role, content, sender);
+        
+        WorkOrder order = this.workOrderService.getWorkOrderById(workOrderId);
 
         if(!sender.getUserId().equals(sessionId)) {
             if(role.equals(WorkOrderChartRole.TEAM)) {
@@ -110,6 +114,9 @@ public class WorkOrderForOfficeAction {
                     .append("\\n回复：").append(basePath).append("/workorder/office/viewChart.htm?workOrderId=").append(workOrderId)
                     .append("&sessionId=").append(sessionId)
                     .append("&role=").append(role);
+                if(order.getWorkOrderStatus().equals(WorkOrderStatus.COFIRM) || (order.getWorkOrderStatus().equals(WorkOrderStatus.APPROVAL) && order.getWorkOrderApprovalStatus().equals(WorkOrderStatus.APPROVAL_STATUS.UNPASS))) {
+                    sb.append("&edit=true");
+                }
                 WeixinUtil.sendMessage("\"touser\":\"" + sessionId + "\"", Configuration.TEAM_APP_ID, sb.toString());
             }
             if(role.equals(WorkOrderChartRole.EXPERT)) {
@@ -122,6 +129,9 @@ public class WorkOrderForOfficeAction {
                     .append("\\n回复：").append(basePath).append("/workorder/office/viewChart.htm?workOrderId=").append(workOrderId)
                     .append("&sessionId=").append(sessionId)
                     .append("&role=").append(role);
+                if(order.getWorkOrderStatus().equals(WorkOrderStatus.COFIRM) || (order.getWorkOrderStatus().equals(WorkOrderStatus.APPROVAL) && order.getWorkOrderApprovalStatus().equals(WorkOrderStatus.APPROVAL_STATUS.UNPASS))) {
+                    sb.append("&edit=true");
+                }
                 WeixinUtil.sendMessage("\"touser\":\"" + sessionId + "\"", Configuration.EXPERT_APP_ID, sb.toString());
             }
         }

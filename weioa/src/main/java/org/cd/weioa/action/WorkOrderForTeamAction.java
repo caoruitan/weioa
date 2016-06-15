@@ -230,23 +230,25 @@ public class WorkOrderForTeamAction {
                 users.add(userId);
             }
         }
-        this.workOrderService.carbonCopyWorkOrder(workOrderId, users, carbonCopyContent);
+        List<WorkOrderCarbonCopy> savedList = this.workOrderService.carbonCopyWorkOrder(workOrderId, users, carbonCopyContent);
         WorkOrder order = this.workOrderService.getWorkOrderById(workOrderId);
 
         String path = request.getContextPath();
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
-        StringBuilder sb = new StringBuilder("");
-        sb.append(order.getWorkOrderCreatorName()).append("向您抄送了工作单，请您查看：")
-            .append("\\n申请国家队：").append(order.getWorkForTeam())
-            .append("\\n申请下队地点：").append(order.getWorkSpace())
-            .append("\\n申请下队时间：").append(order.getWorkTime())
-            .append("\\n申请专家：").append(order.getWorkExpertName())
-            .append("\\n备选专家：").append(order.getWorkExpertOptionalName())
-            .append("\\n申请人：").append(order.getWorkOrderCreatorName())
-            .append("\\n申请人联系电话：").append(order.getWorkOrderCreatorPhone())
-            .append("\\n详情：").append(basePath).append("/workorder/team/ccWorkOrderDetail.htm?workOrderId=")
-            .append(order.getWorkOrderId());
-        WeixinUtil.sendMessage("\"touser\":\"" + carbonCopyUser.replace(",", "|") + "\"", Configuration.TEAM_APP_ID, sb.toString());
+        for(WorkOrderCarbonCopy cc : savedList) {
+	        StringBuilder sb = new StringBuilder("");
+	        sb.append(order.getWorkOrderCreatorName()).append("向您抄送了工作单，请您查看：")
+	            .append("\\n申请国家队：").append(order.getWorkForTeam())
+	            .append("\\n申请下队地点：").append(order.getWorkSpace())
+	            .append("\\n申请下队时间：").append(order.getWorkTime())
+	            .append("\\n申请专家：").append(order.getWorkExpertName())
+	            .append("\\n备选专家：").append(order.getWorkExpertOptionalName())
+	            .append("\\n申请人：").append(order.getWorkOrderCreatorName())
+	            .append("\\n申请人联系电话：").append(order.getWorkOrderCreatorPhone())
+	            .append("\\n详情：").append(basePath).append("/workorder/team/ccWorkOrderDetail.htm?carbonCopyId=")
+	            .append(cc.getCarbonCopyId());
+	        WeixinUtil.sendMessage("\"touser\":\"" + cc.getCarbonCopyUser() + "\"", Configuration.TEAM_APP_ID, sb.toString());
+        }
         return "redirect:/workorder/team/workOrderDetail.htm?workOrderId=" + workOrderId;
     }
 }
