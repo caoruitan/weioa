@@ -6,6 +6,7 @@ CREATE TABLE work_order (
   work_space VARCHAR(1000) COMMENT '下队地点',
   work_for_team VARCHAR(1000) COMMENT '申请国家队',
   work_for_reason VARCHAR(4000) COMMENT '下队解决问题',
+  work_for_reason_images VARCHAR(4000) COMMENT '下对解决问题附件（图片）',
   work_expert VARCHAR(200) COMMENT '申请专家',
   work_expert_name VARCHAR(200) COMMENT '申请专家姓名',
   confirm_work_expert VARCHAR(200) COMMENT '确认下队专家',
