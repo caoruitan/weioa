@@ -25,6 +25,8 @@ public class WorkOrder {
     
     private String workForReason;
     
+    private String workForReasonImages;
+    
     private String workExpert;
     
     private String workExpertName;
@@ -129,6 +131,15 @@ public class WorkOrder {
 
     public void setWorkForReason(String workForReason) {
         this.workForReason = workForReason;
+    }
+
+    @Column(name = "work_for_reason_images")
+    public String getWorkForReasonImages() {
+        return workForReasonImages;
+    }
+
+    public void setWorkForReasonImages(String workForReasonImages) {
+        this.workForReasonImages = workForReasonImages;
     }
 
     @Column(name = "work_expert")

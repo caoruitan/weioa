@@ -48,7 +48,7 @@ public class WorkOrderService {
     @Autowired
     private WorkOrderCarbonCopyDao workOrderCarbonCopyDao;
     
-    public WorkOrder createWorkOrder(String workSpace, String workTime, String workForTeam, String workForReason, String workExpert, String workExpertName, String workExpertOpertional, String workExpertOpertionalName, UserInfo userInfo) {
+    public WorkOrder createWorkOrder(String workSpace, String workTime, String workForTeam, String workForReason, String workForReasonImages, String workExpert, String workExpertName, String workExpertOpertional, String workExpertOpertionalName, UserInfo userInfo) {
         WorkOrder order = new WorkOrder();
         Date date = new Date();
         
@@ -72,6 +72,7 @@ public class WorkOrderService {
         order.setWorkTime(workTime);
         order.setWorkForTeam(workForTeam);
         order.setWorkForReason(workForReason);
+        order.setWorkForReasonImages(workForReasonImages);
         order.setWorkExpert(workExpert);
         order.setWorkExpertName(workExpertName);
         order.setWorkExpertOptional(workExpertOpertional);

@@ -57,11 +57,23 @@ public class WorkOrderForOfficeAction {
             }
             request.setAttribute("workExpertOperationalList", workExpertOperationalList);
         }
+        
+        String workForReasonImages = workOrder.getWorkForReasonImages();
+        List<String> images = new ArrayList<String>();
+        if(workForReasonImages != null && !workForReasonImages.equals("")) {
+            String[] urls = workForReasonImages.split("\\|");
+            for(String url : urls) {
+                if(!url.trim().equals("")) {
+                    images.add(url);
+                }
+            }
+        }
 
         request.setAttribute("approvalRecordList", this.workOrderService.getRecordsByOrderId(workOrderId));
         request.setAttribute("dailyLogList", this.workOrderService.getDailyLogByOrderId(workOrderId));
         request.setAttribute("reportApprovalRecordList", this.workOrderService.getReportRecordsByOrderId(workOrderId));
         request.setAttribute("workOrder", workOrder);
+        request.setAttribute("images", images);
 
         WorkFeedBack feedback = this.workFeedBackService.findByWorkNo(workOrderId);
         if(feedback == null) {

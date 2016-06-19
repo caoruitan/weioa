@@ -1,9 +1,25 @@
 package org.cd.weioa.action;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.cd.weioa.entity.Configuration;
 import org.cd.weioa.entity.WorkFeedBack;
 import org.cd.weioa.entity.WorkFeedBackAttacment;
@@ -18,11 +34,11 @@ import org.cd.weioa.weinxin.WeixinUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("workorder/team/")
+@SuppressWarnings("deprecation")
 public class WorkOrderForTeamAction {
 
     @Autowired
@@ -61,12 +77,13 @@ public class WorkOrderForTeamAction {
         String workSpace = request.getParameter("workSpace");
         String workForTeam = request.getParameter("workForTeam");
         String workForReason = request.getParameter("workForReason");
+        String workForReasonImages = request.getParameter("workForReasonImages");
         String workExpert = request.getParameter("workExpert");
         String workExpertName = request.getParameter("workExpertName");
         String workExpertOpertional = request.getParameter("workExpertOpertional");
         String workExpertOpertionalName = request.getParameter("workExpertOpertionalName");
         UserInfo userInfo = (UserInfo) request.getSession(true).getAttribute("userInfo");
-        WorkOrder order = workOrderService.createWorkOrder(workSpace, workTime, workForTeam, workForReason, workExpert, workExpertName, workExpertOpertional, workExpertOpertionalName, userInfo);
+        WorkOrder order = workOrderService.createWorkOrder(workSpace, workTime, workForTeam, workForReason, workForReasonImages, workExpert, workExpertName, workExpertOpertional, workExpertOpertionalName, userInfo);
 
         String path = request.getContextPath();
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
@@ -114,11 +131,23 @@ public class WorkOrderForTeamAction {
             }
             request.setAttribute("workExpertOperationalList", workExpertOperationalList);
         }
+        
+        String workForReasonImages = workOrder.getWorkForReasonImages();
+        List<String> images = new ArrayList<String>();
+        if(workForReasonImages != null && !workForReasonImages.equals("")) {
+            String[] urls = workForReasonImages.split("\\|");
+            for(String url : urls) {
+                if(!url.trim().equals("")) {
+                    images.add(url);
+                }
+            }
+        }
 
         request.setAttribute("approvalRecordList", this.workOrderService.getRecordsByOrderId(workOrderId));
         request.setAttribute("dailyLogList", this.workOrderService.getDailyLogByOrderId(workOrderId));
         request.setAttribute("reportApprovalRecordList", this.workOrderService.getReportRecordsByOrderId(workOrderId));
         request.setAttribute("workOrder", workOrder);
+        request.setAttribute("images", images);
 
         WorkFeedBack feedback = this.workFeedBackService.findByWorkNo(workOrderId);
         if(feedback == null) {
@@ -151,12 +180,24 @@ public class WorkOrderForTeamAction {
             }
             request.setAttribute("workExpertOperationalList", workExpertOperationalList);
         }
-
+        
+        String workForReasonImages = workOrder.getWorkForReasonImages();
+        List<String> images = new ArrayList<String>();
+        if(workForReasonImages != null && !workForReasonImages.equals("")) {
+            String[] urls = workForReasonImages.split("\\|");
+            for(String url : urls) {
+                if(!url.trim().equals("")) {
+                    images.add(url);
+                }
+            }
+        }
+        
         request.setAttribute("approvalRecordList", this.workOrderService.getRecordsByOrderId(cc.getWorkOrderId()));
         request.setAttribute("dailyLogList", this.workOrderService.getDailyLogByOrderId(cc.getWorkOrderId()));
         request.setAttribute("reportApprovalRecordList", this.workOrderService.getReportRecordsByOrderId(cc.getWorkOrderId()));
         request.setAttribute("cc", cc);
         request.setAttribute("workOrder", workOrder);
+        request.setAttribute("images", images);
         return "team/ccWorkOrderDetail";
     }
 
@@ -236,19 +277,117 @@ public class WorkOrderForTeamAction {
         String path = request.getContextPath();
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
         for(WorkOrderCarbonCopy cc : savedList) {
-	        StringBuilder sb = new StringBuilder("");
-	        sb.append(order.getWorkOrderCreatorName()).append("向您抄送了工作单，请您查看：")
-	            .append("\\n申请国家队：").append(order.getWorkForTeam())
-	            .append("\\n申请下队地点：").append(order.getWorkSpace())
-	            .append("\\n申请下队时间：").append(order.getWorkTime())
-	            .append("\\n申请专家：").append(order.getWorkExpertName())
-	            .append("\\n备选专家：").append(order.getWorkExpertOptionalName())
-	            .append("\\n申请人：").append(order.getWorkOrderCreatorName())
-	            .append("\\n申请人联系电话：").append(order.getWorkOrderCreatorPhone())
-	            .append("\\n详情：").append(basePath).append("/workorder/team/ccWorkOrderDetail.htm?carbonCopyId=")
-	            .append(cc.getCarbonCopyId());
-	        WeixinUtil.sendMessage("\"touser\":\"" + cc.getCarbonCopyUser() + "\"", Configuration.TEAM_APP_ID, sb.toString());
+            StringBuilder sb = new StringBuilder("");
+            sb.append(order.getWorkOrderCreatorName()).append("向您抄送了工作单，请您查看：")
+                .append("\\n申请国家队：").append(order.getWorkForTeam())
+                .append("\\n申请下队地点：").append(order.getWorkSpace())
+                .append("\\n申请下队时间：").append(order.getWorkTime())
+                .append("\\n申请专家：").append(order.getWorkExpertName())
+                .append("\\n备选专家：").append(order.getWorkExpertOptionalName())
+                .append("\\n申请人：").append(order.getWorkOrderCreatorName())
+                .append("\\n申请人联系电话：").append(order.getWorkOrderCreatorPhone())
+                .append("\\n详情：").append(basePath).append("/workorder/team/ccWorkOrderDetail.htm?carbonCopyId=")
+                .append(cc.getCarbonCopyId());
+            WeixinUtil.sendMessage("\"touser\":\"" + cc.getCarbonCopyUser() + "\"", Configuration.TEAM_APP_ID, sb.toString());
         }
         return "redirect:/workorder/team/workOrderDetail.htm?workOrderId=" + workOrderId;
     }
+
+    @ResponseBody
+    @RequestMapping("getImage")
+    @SuppressWarnings("resource")
+    public String getImage(HttpServletRequest request) {
+        String serverId = request.getParameter("serverId");
+        String token = AccessTokenHolder.getAccessToken();
+        
+        DefaultHttpClient httpClient = new DefaultHttpClient();
+        OutputStream out = null;
+        InputStream in = null;
+        String filePath = "";
+        
+        try {
+            HttpGet httpGet = new HttpGet("https://qyapi.weixin.qq.com/cgi-bin/media/get?access_token=" + token + "&media_id=" + serverId);
+       
+            HttpResponse httpResponse = httpClient.execute(httpGet);
+            HttpEntity entity = httpResponse.getEntity();
+            in = entity.getContent();
+            long length = entity.getContentLength();
+            if (length <= 0) {
+                System.out.println("下载文件不存在！");
+                return "{\"success\":false}";
+            }
+        
+            String path = request.getSession().getServletContext().getRealPath("upload/work");
+            //拿到输出流，同时重命名上传的文件
+            Long timestamp = new Date().getTime();
+            File uploadDir = new File(path + File.separator + timestamp);
+            if (!uploadDir.exists())
+                uploadDir.mkdirs();
+            
+            String fileName = this.getFileName(httpResponse);
+            String suffix = fileName.substring(fileName.lastIndexOf("."));
+            
+            String uuid = UUID.randomUUID().toString();
+            String localFileName = uploadDir + File.separator + uuid + suffix;
+            File file = new File(localFileName);
+            if(!file.exists()){
+                file.createNewFile();
+            }
+        
+            out = new FileOutputStream(file);
+            byte[] buffer = new byte[4096];
+            int readLength = 0;
+            while ((readLength=in.read(buffer)) > 0) {
+                byte[] bytes = new byte[readLength];
+                System.arraycopy(buffer, 0, bytes, 0, readLength);
+                out.write(bytes);
+            }
+        
+            out.flush();
+            
+            filePath = "upload/work" + File.separator + timestamp + File.separator + uuid + suffix;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "{\"success\":false}";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "{\"success\":false}";
+        }finally{
+            try {
+                if(in != null){
+                    in.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        
+            try {
+                if(out != null){
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "{\"success\":true, \"url\":\"" + filePath + "\"}";
+    }
+    
+    private String getFileName(HttpResponse response) {  
+        Header contentHeader = response.getFirstHeader("Content-Disposition");  
+        String filename = null;  
+        if (contentHeader != null) {  
+            HeaderElement[] values = contentHeader.getElements();  
+            if (values.length == 1) {  
+                NameValuePair param = values[0].getParameterByName("filename");  
+                if (param != null) {  
+                    try {  
+                        filename = param.getValue();  
+                    } catch (Exception e) {  
+                        e.printStackTrace();  
+                    }  
+                }  
+            }  
+        }  
+        return filename;  
+    }  
 }

@@ -49,10 +49,22 @@ public class WorkOrderForExpertAction {
     public String workOrderDetail(HttpServletRequest request) {
         String workOrderId = request.getParameter("workOrderId");
         WorkOrder workOrder = this.workOrderService.getWorkOrderById(workOrderId);
+        
+        String workForReasonImages = workOrder.getWorkForReasonImages();
+        List<String> images = new ArrayList<String>();
+        if(workForReasonImages != null && !workForReasonImages.equals("")) {
+            String[] urls = workForReasonImages.split("\\|");
+            for(String url : urls) {
+                if(!url.trim().equals("")) {
+                    images.add(url);
+                }
+            }
+        }
         request.setAttribute("approvalRecordList", this.workOrderService.getRecordsByOrderId(workOrderId));
         request.setAttribute("dailyLogList", this.workOrderService.getDailyLogByOrderId(workOrderId));
         request.setAttribute("reportApprovalRecordList", this.workOrderService.getReportRecordsByOrderId(workOrderId));
         request.setAttribute("workOrder", workOrder);
+        request.setAttribute("images", images);
         WorkFeedBack feedback = this.workFeedBackService.findByWorkNo(workOrderId);
         if(feedback == null) {
             request.setAttribute("haveFiles", "false");

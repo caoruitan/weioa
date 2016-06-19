@@ -115,7 +115,14 @@
 						<p></p>
 					</li>
 					<li class="m-auto-height">
-						<pre>${workOrder.workForReason}<img src="${basePath}/res/images/nopic.png" /></pre>
+						<pre>${workOrder.workForReason}</pre>
+					</li>
+					<li class="m-auto-height">
+						<pre>
+							<c:forEach items="${images}" var="image">
+								<img style='max-width:100%;width:90%;margin-left:5%;' src="${basePath}/${image}" />
+							</c:forEach>
+						</pre>
 					</li>
 				</div>
 				

@@ -74,11 +74,13 @@
 				<li class="m-auto-height">
 					<textarea class="m-textarea" name="workForReason" rows="" cols=""></textarea>
 				</li>
-				<!-- 
 				<li>
 					<span class="m-btn m-small-btn w-40 m-left"><a href="javascript:chooseImage()" class="bg-blue">拍照/上传图片</a></span>
+					<input type="hidden" id="workForReasonImages" name="workForReasonImages"/>
 				</li>
-				-->
+				<li class="m-auto-height">
+					<pre id="imageContainer"></pre>
+				</li>
 			</div>
 			<div class="m-box">
 				<li >
@@ -101,13 +103,14 @@
 	<script type="text/javascript" src="${basePath}/js/jquery183.js"></script>
 	<script type="text/javascript" src="${basePath}/js/jquery.validate.min.js"></script>
 	<script type="text/javascript">
+		var basePath = '${basePath}';
 		wx.config({
 			debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
 			appId: 'wx12bfbc7b7f11c4ee', // 必填，企业号的唯一标识，此处填写企业号corpid
 			timestamp: '${timestamp}', // 必填，生成签名的时间戳
 			nonceStr: '123qweasdzxc', // 必填，生成签名的随机串
 			signature: '${signature}',// 必填，签名，见附录1
-			jsApiList: ['openEnterpriseContact','chooseImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			jsApiList: ['openEnterpriseContact','chooseImage','uploadImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 		});
 		wx.ready(function(){
 			// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
@@ -116,11 +119,35 @@
 		});
 		function chooseImage() {
 			wx.chooseImage({
-				count: 9,
+				count: 1,
 				sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
 				sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
 				success: function (res) {
 					var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+					wx.uploadImage({
+						localId: localIds.toString(), // 需要上传的图片的本地ID，由chooseImage接口获得
+						isShowProgressTips: 1, // 默认为1，显示进度提示
+						success: function (res) {
+							var serverId = res.serverId;
+							$.ajax({
+								type: 'GET',
+								url: '${basePath}/workorder/team/getImage.action?serverId=' + serverId,
+								dataType: 'json',
+								success: function(obj) {
+									if(obj.success == true) {
+										$("#imageContainer").append($("<img width='200' height='150' style='margin-right:10px;' src='" + basePath + "/" + obj.url + "'/>"));
+										var images = $('#workForReasonImages').val();
+										$('#workForReasonImages').val(images + "|" + obj.url);
+									} else {
+										
+									}
+								}
+							});
+						},
+						fail:function(res) {
+							alert(res.errMsg);
+						}
+					});
 				}
 			});
 		}
