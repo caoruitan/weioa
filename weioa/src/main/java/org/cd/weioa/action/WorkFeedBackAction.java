@@ -1,14 +1,17 @@
 package org.cd.weioa.action;
 
-import com.google.gson.JsonArray;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.util.CycleDetectionStrategy;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.cd.weioa.entity.FeedBackAttrType;
 import org.cd.weioa.entity.WorkFeedBack;
-import org.cd.weioa.entity.WorkFeedBackAttacment;
 import org.cd.weioa.service.WorkFeedBackService;
 import org.cd.weioa.service.WorkOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
 /**
  * Created by xuyang on 16/5/10.
@@ -50,22 +53,24 @@ public class WorkFeedBackAction {
         if (!file.isEmpty()) {
             try {
                 String path = request.getSession().getServletContext().getRealPath("upload/work");
+                
+                Long timestamp = new Date().getTime();
+                String uuid = UUID.randomUUID().toString();
+                
                 //拿到输出流，同时重命名上传的文件
-                File uploadDir = new File(path + File.separator + new Date().getTime());
+                File uploadDir = new File(path + File.separator + timestamp);
 
                 if (!uploadDir.exists())
                     uploadDir.mkdirs();
 
                 String suffix = file.getOriginalFilename().substring(
                         file.getOriginalFilename().lastIndexOf("."));
-
-                File uploadFile = new File(uploadDir + File.separator + UUID.randomUUID().toString() + suffix);
+                
+                File uploadFile = new File(uploadDir + File.separator + uuid + suffix);
 
                 try {
                     file.transferTo(uploadFile);
-                    result.put("url", "upload/work" +
-                            File.separator + new Date().getTime() +
-                            File.separator + UUID.randomUUID().toString() + suffix);
+                    result.put("url", "upload/work" + File.separator + timestamp + File.separator + uuid + suffix);
                     result.put("status", "success");
 
                 } catch (IllegalStateException e) {
