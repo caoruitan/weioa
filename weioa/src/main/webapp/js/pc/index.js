@@ -17159,7 +17159,7 @@ webpackJsonp([1,0],[
 	                title: '提交成功',
 	                content: '请耐心等待结果',
 	                onOk: function onOk() {
-	                  location.href = WORK.ctx + "/workorder/feedback/";
+	                  location.href = WORK.ctx + "/workorder/feedback/submitReport.do";
 	                }
 	              });
 	            }
