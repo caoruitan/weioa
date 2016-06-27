@@ -12,6 +12,7 @@ import org.cd.weioa.entity.WorkFeedBackAttacment;
 import org.cd.weioa.entity.WorkOrder;
 import org.cd.weioa.entity.WorkOrderChart;
 import org.cd.weioa.entity.WorkOrderStatus;
+import org.cd.weioa.mail.HTMLSender;
 import org.cd.weioa.service.WorkFeedBackService;
 import org.cd.weioa.service.WorkOrderService;
 import org.cd.weioa.weinxin.AccessTokenHolder;
@@ -111,6 +112,27 @@ public class WorkOrderForExpertAction {
     public String doneWorkOrder(HttpServletRequest request) {
         String workOrderId = request.getParameter("workOrderId");
         this.workOrderService.doneWorkOrder(workOrderId);
+
+        UserInfo userInfo = (UserInfo) request.getSession(true).getAttribute("userInfo");
+        String path = request.getContextPath();
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+        //代理主机-新浪
+        String host = "smtp.139.com";
+        //帐号-新浪帐号
+        String name = "13810377346@139.com";
+        //密码-新浪密码
+        String password = "654321test";
+        //创建发送邮件对象
+        HTMLSender mail = new HTMLSender(host,name,password);
+        //发邮帐号
+        mail.setFrom("13810377346@139.com");
+        //收邮帐号
+        mail.setTo(userInfo.getEmail());
+        //邮件主题
+        mail.setSubject("工作/财务报告提交");
+        //邮件内容
+        mail.setContect("请用访问以下地址进行报告上传，上传成功后再到此页面进行提交：" + basePath + "/workorder/feedback/submitReport.do<br/>您的工作单号为：" + workOrderId + "<br/>您的企业号用户ID为：" + userInfo.getUserId());
+        mail.send();
         return "redirect:/workorder/expert/workOrderDetail.htm?workOrderId=" + workOrderId;
     }
     
