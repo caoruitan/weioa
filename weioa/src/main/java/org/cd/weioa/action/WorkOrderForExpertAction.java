@@ -172,7 +172,7 @@ public class WorkOrderForExpertAction {
             .append("\\n下队专家：").append(order.getConfirmWorkExpertName())
             .append("\\n详情：").append(basePath).append("/workorder/team/workOrderDetail.htm?workOrderId=")
             .append(order.getWorkOrderId());
-        WeixinUtil.sendMessage("\"touser\":\"" + order.getWorkOrderCreator() + "\"", Configuration.OFFICE_APP_ID, sb.toString());
+        WeixinUtil.sendMessage("\"touser\":\"" + order.getWorkOrderCreator() + "\"", Configuration.TEAM_APP_ID, sb.toString());
 
         StringBuilder sb1 = new StringBuilder("");
         sb1.append(order.getConfirmWorkExpertName()).append("本次下队的工作报告/财务报告已经提交，请及时对工作报告/财务报告进行审批：")

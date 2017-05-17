@@ -166,8 +166,20 @@ public class WorkOrderForOfficeAction {
                 workExpertOperationalList.add(info);
             }
         }
+        
+        String workForReasonImages = workOrder.getWorkForReasonImages();
+        List<String> images = new ArrayList<String>();
+        if(workForReasonImages != null && !workForReasonImages.equals("")) {
+            String[] urls = workForReasonImages.split("\\|");
+            for(String url : urls) {
+                if(!url.trim().equals("")) {
+                    images.add(url);
+                }
+            }
+        }
         request.setAttribute("workOrder", workOrder);
         request.setAttribute("expertList", workExpertOperationalList);
+        request.setAttribute("images", images);
         
         return "office/confirmWorkOrder";
     }
